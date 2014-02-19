@@ -2,11 +2,12 @@
 from django.test import TestCase
 from eventex.subscriptions.forms import SubscriptionForm
 from eventex.subscriptions.models import Subscription
+from django.core.urlresolvers import reverse as r
 
 
 class SubscribeTest(TestCase):
     def setUp(self):
-    	self.resp = self.client.get('/inscricao/')
+    	self.resp = self.client.get(r('subscription:subscribe'))
 
     def test_get(self):
     	'GET /inscricao/ must return status code 200.'
@@ -44,7 +45,7 @@ class SubscribePostTest(TestCase):
     def setUp(self):
         data = dict(name='Fernando', cpf='40090038800',
             email='fernando@chimi.com.br', phone='16-91515651')
-        self.resp = self.client.post('/inscricao/', data)
+        self.resp = self.client.post(r('subscription:subscribe'), data)
 
     def test_post(self):
         'Valid POST should redirect to /inscricao/1/'
@@ -59,7 +60,7 @@ class SubscribeInvalidPostText(TestCase):
     def setUp(self):
         data = dict(name='Fernando', cpf='400900388000',
             email='fernando@chimi.com.br', phone='16-91515651')
-        self.resp = self.client.post('/inscricao/', data)
+        self.resp = self.client.post(r('subscription:subscribe'), data)
 
     def test_post(self):
         'Invalid POST should not redirect'
