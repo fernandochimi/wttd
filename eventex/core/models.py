@@ -53,8 +53,17 @@ class Talk(models.Model):
 	def __unicode__(self):
 		return self.title
 
+	@models.permalink
 	def get_absolute_url(self):
-		return '/palestras/%d/' % self.pk
+		return ('core:talk_detail', (), {'pk': self.pk})
+
+	@property
+	def slides(self):
+	    return self.media_set.filter(kind='SL')
+
+	@property
+	def videos(self):
+	    return self.media_set.filter(kind='YT')
 
 
 class Course(Talk):
@@ -62,3 +71,18 @@ class Course(Talk):
 	notes = models.TextField(_(u'observações'))
 
 	objects = PeriodManager()
+
+
+class Media(models.Model):
+	MEDIAS = (
+		('YT', _('YouTube')),
+		('SL', _('SlideShare')),
+	)
+
+	talk = models.ForeignKey('Talk', verbose_name=_('palestra'))
+	kind = models.CharField(_('tipo'), max_length=2, choices=MEDIAS)
+	title = models.CharField(_(u'título'), max_length=255)
+	media_id = models.CharField(_('ref'), max_length=255)
+
+	def __unicode__(self):
+		return u'%s - %s' % (self.talk.title, self.title)
