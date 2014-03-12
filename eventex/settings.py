@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'south',
     'eventex.core',
     'eventex.subscriptions',
+    'eventex.myauth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,6 +56,7 @@ ROOT_URLCONF = 'eventex.urls'
 
 WSGI_APPLICATION = 'eventex.wsgi.application'
 
+AUTH_USER_MODEL = 'myauth.User'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

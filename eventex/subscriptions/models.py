@@ -18,3 +18,7 @@ class Subscription(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	@models.permalink
+	def get_absolute_url(self):
+		return('subscription:detail', (), {'pk': self.pk})
